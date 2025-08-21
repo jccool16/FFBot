@@ -10,12 +10,13 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
 
 LEAGUE_ID = int(os.getenv("LEAGUE_ID"))
+LEAGUE_YEAR = 2025
 ESPN_S2 = os.getenv("ESPN_S2")
 SWID = os.getenv("SWID")
 
 # fetch league
 print("league fetch started")
-league = League(league_id=LEAGUE_ID, year=2024, espn_s2=ESPN_S2, swid=SWID)
+league = League(league_id=LEAGUE_ID, year=LEAGUE_YEAR, espn_s2=ESPN_S2, swid=SWID)
 print("league fetched")
 
 # setup client
@@ -46,13 +47,13 @@ Last week's matchups were:
 ```
 This week's matchups are:
 ```ansi
-\u001b[1;32m{this_week[0].home_team.team_name.ljust(25, " ")}\u001b[0;0m vs \u001b[1;31m{this_week[0].away_team.team_name.rjust(25, " ")}
+\u001b[1;32m{this_week[0].home_team.team_name.ljust(29, " ")}\u001b[0;0m vs \u001b[1;31m{this_week[0].away_team.team_name.rjust(29, " ")}
 
-\u001b[1;32m{this_week[1].home_team.team_name.ljust(25, " ")}\u001b[0;0m vs \u001b[1;31m{this_week[1].away_team.team_name.rjust(25, " ")}
+\u001b[1;32m{this_week[1].home_team.team_name.ljust(29, " ")}\u001b[0;0m vs \u001b[1;31m{this_week[1].away_team.team_name.rjust(29, " ")}
 
-\u001b[1;32m{this_week[2].home_team.team_name.ljust(25, " ")}\u001b[0;0m vs \u001b[1;31m{this_week[2].away_team.team_name.rjust(25, " ")}
+\u001b[1;32m{this_week[2].home_team.team_name.ljust(29, " ")}\u001b[0;0m vs \u001b[1;31m{this_week[2].away_team.team_name.rjust(29, " ")}
 
-\u001b[1;32m{this_week[3].home_team.team_name.ljust(25, " ")}\u001b[0;0m vs \u001b[1;31m{this_week[3].away_team.team_name.rjust(25, " ")}
+\u001b[1;32m{this_week[3].home_team.team_name.ljust(29, " ")}\u001b[0;0m vs \u001b[1;31m{this_week[3].away_team.team_name.rjust(29, " ")}
 ```
 Current Standings:```ansi
 """
