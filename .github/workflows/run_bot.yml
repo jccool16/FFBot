@@ -1,0 +1,44 @@
+name: Run Fantasy Bot
+
+on:
+  # This allows you to trigger the bot manually via the GitHub website
+  workflow_dispatch:
+  
+  # This cron schedule tells GitHub to run the bot automatically.
+  # The example below runs every Tuesday at 09:00 UTC.
+  # Format: 'minute hour day month weekday'
+  schedule:
+    - cron: '0 9 * * 2'
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Pull your code from the repository onto the GitHub runner
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Install Python on the GitHub runner
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      # 3. Install dependencies from your requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      # 4. Run the script while passing your Secrets in as Environment Variables
+      # This is the bridge between GitHub Secrets and your Python code (os.getenv)
+      - name: Run Bot Script
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          LEAGUE_ID: ${{ secrets.LEAGUE_ID }}
+          LEAGUE_YEAR: ${{ secrets.LEAGUE_YEAR }}
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          SWID: ${{ secrets.SWID }}
+        run: python main.py
