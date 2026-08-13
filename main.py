@@ -81,7 +81,7 @@ teams_in_top_5 = set()
 for team in league.teams:
     # We check players for the current week
     # Note: .players(week=week_num) retrieves player objects with their weekly stats
-    for player in team.players(week=week_num):
+    for player in team.roster(week=week_num):
         player_stats.append({
             'name': player.name,
             'points': player.points,
