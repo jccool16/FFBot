@@ -10,7 +10,7 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
 
 LEAGUE_ID = int(os.getenv("LEAGUE_ID"))
-LEAGUE_YEAR = 2026
+LEAGUE_YEAR = int(os.getenv("LEAGUE_YEAR"))
 ESPN_S2 = os.getenv("ESPN_S2")
 SWID = os.getenv("SWID")
 
@@ -30,7 +30,7 @@ last_week = league.scoreboard(week_num-1)
 
 
 i = 0
-message = """
+message = f"""
 @everyone Remember to set your lineups this week
 
 We are in Week {league.current_week}
@@ -39,7 +39,7 @@ Last week's matchups were:
 ```ansi
 """
 for game in last_week:
-    message += f"\u001b[1;32m{game.home_team.team_name.ljust(25, " ")}\u001b[0;0m {float(last_week[0].home_score)} vs {float(game.away_score)} \u001b[1;31m{game.away_team.team_name.rjust(25, " ")}\n"
+    message += f"\u001b[1;32m{game.home_team.team_name.ljust(25, " ")}\u001b[0;0m {float(game.home_score)} vs {float(game.away_score)} \u001b[1;31m{game.away_team.team_name.rjust(25, " ")}\n"
 message += """```
 This week's matchups are:
 ```ansi
