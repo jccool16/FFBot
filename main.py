@@ -40,13 +40,15 @@ Last week's matchups were:
 """
 for game in last_week:
     message += f"\u001b[1;32m{game.home_team.team_name.ljust(25, ' ')}\u001b[0;0m {float(game.home_score)} vs {float(game.away_score)} \u001b[1;31m{game.away_team.team_name.rjust(25, ' ')}\n"
-message += """```
+message += """
+```
 This week's matchups are:
 ```ansi
 """
 for game in this_week:
     message += f"\u001b[1;32m{game.home_team.team_name.ljust(29, ' ')}\u001b[0;0m vs \u001b[1;31m{game.away_team.team_name.rjust(29, ' ')}\n"
-message += """```
+message += """
+```
 Current Standings:```ansi
 """
 for team in league.standings():
