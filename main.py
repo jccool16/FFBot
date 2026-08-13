@@ -40,9 +40,10 @@ Last week's matchups were:
 """
 for game in last_week:
     message += f"\u001b[1;32m{game.home_team.team_name.ljust(25, ' ')}\u001b[0;0m {float(game.home_score)} vs {float(game.away_score)} \u001b[1;31m{game.away_team.team_name.rjust(25, ' ')}\n"
+if len(last_week) == 0:
+    message += "No games were played last week\n"
 message += """
 ```
-a
 This week's matchups are:
 ```ansi
 """
