@@ -74,7 +74,53 @@ for team in league.power_rankings():
     """
 message += "```"
 
+# --- NEW FEATURE: Weekly Top Performers ---
+player_stats = []
+teams_in_top_5 = set()
 
+for team in league.teams:
+    # We check players for the current week
+    # Note: .players(week=week_num) retrieves player objects with their weekly stats
+    for player in team.players(week=week_num):
+        player_stats.append({
+            'name': player.name,
+            'points': player.points,
+            'team_name': team.team_name
+        })
+
+# Sort all players by points descending
+player_stats.sort(key=lambda x: x['points'], reverse=True)
+
+# 1. Get the Top 5 global players
+top_5_players = player_stats[:5]
+for p in top_5_players:
+    teams_in_top_5.add(p['team_name'])
+
+# 2. Find best player for teams NOT in the top 5
+other_teams_best = []
+for team in league.teams:
+    if team.team_name not in teams_in_top_5:
+        # Find highest scoring player on this specific team
+        team_players = [p for p in player_stats if p['team_name'] == team.team_name]
+        if team_players:
+            best_on_team = max(team_players, key=lambda x: x['points'])
+            other_teams_best.append(best_on_team)
+other_teams_best.sort(key=lambda x: x['points'], reverse=True)
+ 
+# --- NEW FEATURE: Append Weekly Top Performers to message ---
+message += "\nWeekly Top Performers:\n```ansi\n"
+message += "\u001b[1;33m--- League Leaders ---\u001b[0;0m\n"
+for p in top_5_players:
+    message += f"\u001b[1;32m{p['name'].ljust(25, ' ')}\u001b[0;0m {float(p['points']):.2f}\n"
+
+if other_teams_best:
+    message += "\n\u001b[1;33m--- Other Team Leaders ---\u001b[0;0m\n"
+    for p in other_teams_best:
+        team_part = f" (\u001b[1;34m{p['team_name']}\u001b[0;0m)"
+        # Truncate player name if it's too long to keep formatting somewhat sane
+        player_name = p['name'][:25]
+        message += f"\u001b[1;32m{player_name.ljust(25, ' ')}\u001b[0;0m {float(p['points']):.2f}{team_part}\n"
+message += "```"
 
 # startup
 @client.event
