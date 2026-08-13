@@ -49,6 +49,8 @@ This week's matchups are:
 """
 for game in this_week:
     message += f"\u001b[1;32m{game.home_team.team_name.ljust(29, ' ')}\u001b[0;0m vs \u001b[1;31m{game.away_team.team_name.rjust(29, ' ')}\n"
+if len(this_week) == 0:
+    message += "No games are scheduled for this week\n"
 message += """
 ```
 Current Standings:```ansi
