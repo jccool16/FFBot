@@ -105,21 +105,15 @@ for team in league.teams:
         if team_players:
             best_on_team = max(team_players, key=lambda x: x['points'])
             other_teams_best.append(best_on_team)
-other_teams_best.sort(key=lambda x: x['points'], reverse=True)
+all_best_players = top_5_players + other_teams_best
+all_best_players.sort(key=lambda x: x['points'], reverse=True)
  
 # --- NEW FEATURE: Append Weekly Top Performers to message ---
 message += "\nWeekly Top Performers:\n```ansi\n"
-message += "\u001b[1;33m--- League Leaders ---\u001b[0;0m\n"
-for p in top_5_players:
+if not all_best_players:
+    message += "No player stats available for this week.\n"
+for p in all_best_players:
     message += f"\u001b[1;32m{p['name'].ljust(25, ' ')}\u001b[0;0m {float(p['points']):.2f}\n"
-
-if other_teams_best:
-    message += "\n\u001b[1;33m--- Other Team Leaders ---\u001b[0;0m\n"
-    for p in other_teams_best:
-        team_part = f" (\u001b[1;34m{p['team_name']}\u001b[0;0m)"
-        # Truncate player name if it's too long to keep formatting somewhat sane
-        player_name = p['name'][:25]
-        message += f"\u001b[1;32m{player_name.ljust(25, ' ')}\u001b[0;0m {float(p['points']):.2f}{team_part}\n"
 message += "```"
 
 # startup
