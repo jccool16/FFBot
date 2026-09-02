@@ -83,8 +83,8 @@ for team in league.teams:
     # Note: .players(week=week_num) retrieves player objects with their weekly stats
     for player in team.roster:
         player_stats.append({
-            'name': player[week_num].name,
-            'points': player[week_num].points,
+            'name': player.name,
+            'points': player.stats[week_num].points,
             'team_name': team.team_name
         })
 
