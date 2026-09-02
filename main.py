@@ -84,7 +84,9 @@ for team in league.teams:
     for player in team.roster:
         player_stats.append({
             'name': player.name,
-            'points': player.stats[1]['points'],
+            'points': 
+            try: player.stats[week_num]['points']
+            except: 0,
             'team_name': team.team_name
         })
 
