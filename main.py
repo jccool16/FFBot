@@ -30,7 +30,7 @@ last_week = league.scoreboard(week_num-1)
 
 
 i = 0
-message = f"""
+schedule_message = f"""
 @everyone Remember to set your lineups this week
 
 We are in Week {league.current_week}
@@ -39,40 +39,40 @@ Last week's matchups were:
 ```ansi
 """
 for game in last_week:
-    message += f"\u001b[1;32m{game.home_team.team_name.ljust(25, ' ')}\u001b[0;0m {float(game.home_score)} vs {float(game.away_score)} \u001b[1;31m{game.away_team.team_name.rjust(25, ' ')}\n"
+    schedule_message += f"\u001b[1;32m{game.home_team.team_name.ljust(25, ' ')}\u001b[0;0m {float(game.home_score)} vs {float(game.away_score)} \u001b[1;31m{game.away_team.team_name.rjust(25, ' ')}\n"
 if len(last_week) == 0:
-    message += "No games were played last week\n"
-message += """
+    schedule_message += "No games were played last week\n"
+schedule_message += """
 ```
 This week's matchups are:
 ```ansi
 """
 for game in this_week:
-    message += f"\u001b[1;32m{game.home_team.team_name.ljust(29, ' ')}\u001b[0;0m vs \u001b[1;31m{game.away_team.team_name.rjust(29, ' ')}\n"
+    schedule_message += f"\u001b[1;32m{game.home_team.team_name.ljust(29, ' ')}\u001b[0;0m vs \u001b[1;31m{game.away_team.team_name.rjust(29, ' ')}\n"
 if len(this_week) == 0:
-    message += "No games are scheduled for this week\n"
-message += """
+    schedule_message += "No games are scheduled for this week\n"
+schedule_message += """
 ```
 Current Standings:```ansi
 """
 for team in league.standings():
     i += 1
-    message += f"""
+    schedule_message += f"""
     \u001b[0;0m {i}. \u001b[1;34m({team.wins}-{team.losses}) \u001b[1;32m {team.team_name}
     """
-message += "```"
+schedule_message += "```"
 
 
-message += f"""
+schedule_message += f"""
 Current Power Rankings:```ansi
 """
 i = 0
 for team in league.power_rankings():
     i += 1
-    message += f"""
+    schedule_message += f"""
     \u001b[0;0m {i}. \u001b[0;34m{float(team[0])} \u001b[1;32m {team[1].team_name}
     """
-message += "```"
+schedule_message += "```"
 
 # --- NEW FEATURE: Weekly Top Performers ---
 player_stats = []
@@ -109,19 +109,20 @@ all_best_players = top_5_players + other_teams_best
 all_best_players.sort(key=lambda x: x['points'], reverse=True)
  
 # --- NEW FEATURE: Append Weekly Top Performers to message ---
-#message += "\nWeekly Top Performers:\n```ansi\n"
-#if not all_best_players:
-#    message += "No player stats available for this week.\n"
-#for p in all_best_players:
-#    message += f"\u001b[1;32m{p['name'].ljust(25, ' ')}\u001b[0;0m {float(p['points']):.2f}\n"
-#message += "```"
+player_leaderboard_message = "Weekly Top Performers:\n```ansi\n"
+if not all_best_players:
+    player_leaderboard_message += "No player stats available for this week.\n"
+for p in all_best_players:
+    player_leaderboard_message += f"\u001b[1;32m{p['name'].ljust(25, ' ')}\u001b[0;0m {float(p['points']):.2f}\n"
+player_leaderboard_message += "```"
 
 # startup
 @client.event
 async def on_ready() -> None:
     print(f"{client.user} is now running")
     channel = client.get_channel(CHANNEL_ID)
-    await channel.send(message)
+    await channel.send(schedule_message)
+    await channel.send(player_leaderboard_message)
     await client.close()
 
 
