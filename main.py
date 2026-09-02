@@ -109,12 +109,12 @@ all_best_players = top_5_players + other_teams_best
 all_best_players.sort(key=lambda x: x['points'], reverse=True)
  
 # --- NEW FEATURE: Append Weekly Top Performers to message ---
-message += "\nWeekly Top Performers:\n```ansi\n"
-if not all_best_players:
-    message += "No player stats available for this week.\n"
-for p in all_best_players:
-    message += f"\u001b[1;32m{p['name'].ljust(25, ' ')}\u001b[0;0m {float(p['points']):.2f}\n"
-message += "```"
+#message += "\nWeekly Top Performers:\n```ansi\n"
+#if not all_best_players:
+#    message += "No player stats available for this week.\n"
+#for p in all_best_players:
+#    message += f"\u001b[1;32m{p['name'].ljust(25, ' ')}\u001b[0;0m {float(p['points']):.2f}\n"
+#message += "```"
 
 # startup
 @client.event
