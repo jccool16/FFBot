@@ -85,8 +85,10 @@ for team in league.teams:
         player_stats.append({
             'name': player.name,
             'points': 
-            try: player.stats[week_num]['points']
-            except: 0,
+            try: 
+                player.stats[week_num]['points']
+            except: 
+                0,
             'team_name': team.team_name
         })
 
